@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carpe.mapper.EdocCategoryMapper">
+    <select id="queryCategory" resultType="com.carpe.entity.EdocCategory">
+        select * from edoc_category
+    </select>
+
+</mapper>

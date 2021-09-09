@@ -1,0 +1,123 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org" style="width: auto">
+<head>
+    <meta charset="UTF-8">
+    <title>电子文档首页</title>
+    <script type="text/javascript" src="/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="/js/select-mania.js"></script>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!--图标样式-->
+    <link href="http://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!--基本样式-->
+    <link href="/css/select-mania.css" rel="stylesheet" type="text/css">
+
+    <!--自定义样式-->
+    <link href="/css/themes/select-mania-theme-darkblue.css" rel="stylesheet" type="text/css">
+    <link href="/css/themes/select-mania-theme-green.css" rel="stylesheet" type="text/css">
+    <link href="/css/themes/select-mania-theme-orange.css" rel="stylesheet" type="text/css">
+    <link href="/css/themes/select-mania-theme-red.css" rel="stylesheet" type="text/css">
+    <link href="/css/themes/select-mania-theme-square.css" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="js/select-mania.js"></script>
+    <style>
+        body{
+            margin: 0px;
+        }
+        /*居中*/
+        #sort {
+            margin: 0 auto;
+            width: 370px;
+            text-align: center
+        }
+
+        #add {
+            float: right
+        }
+        #op{
+            position: relative;
+            left: 180px;
+            top: -32px;
+        }
+        th{
+            text-align:center
+        }
+        td{
+            text-align:center
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div class="jumbotron">
+                <div id="sort">
+                    <h2>电子文档列表</h2>
+                    <form action="/showInfo">
+                        <div class="container">
+                            文档分类： <select name="categoryId" class="demo-1">
+                            <option disabled selected>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;全部</option>
+                            <div th:each="cl:${categoryList}">
+                                <option  th:value="${cl.id}" th:text="${cl.name}"></option>
+                            </div>
+                        </select>
+                            <input id="op" type="submit" class="btn btn-sm btn-success" value="查询"/>
+                        </div>
+                    </form>
+                </div>
+                <form action="/toAdd">
+                    <input type="submit" id="add" class="btn btn-default btn-info" value="新增电子文档"/>
+                </form>
+                <table class="table table-hover table-bordered">
+                    <thead>
+                    <tr>
+                        <th>文档编号</th>
+                        <th>文档名称</th>
+                        <th>文档摘要</th>
+                        <th>上传人</th>
+                        <th>上传时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="el:${entryList}">
+                        <td th:text="${el.id}"></td>
+                        <td th:text="${el.title}"></td>
+                        <td th:text="${el.summary}"></td>
+                        <td th:text="${el.uploadUser}"></td>
+                        <td th:text="${#dates.format(el.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+                        <td>
+                            <a th:href="${'/toUpdate/'+el.id}" class="btn btn-sm btn-info">更改</a>&nbsp;&nbsp;
+                            <a th:href="@{/deleteEntry/}+${el.id}" class="btn btn-sm btn-danger"
+                               onclick="javascript:return del()">删除</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    $('.demo-1').selectMania({
+        size: 'small',
+        themes: ['square', 'red'],
+        placeholder: '---请选择我---',
+        removable: true,
+        search: true,
+    });
+
+    function del() {
+        if (confirm("确实要删除吗？")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>

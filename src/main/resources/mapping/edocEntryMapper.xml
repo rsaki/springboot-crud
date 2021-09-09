@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carpe.mapper.EdocEntryMapper">
+    <select id="queryAllEntry" resultType="com.carpe.entity.EdocEntry">
+        select * from edoc_category
+    </select>
+    <select id="queryByAllEntry" resultType="com.carpe.entity.EdocEntry">
+        select * from edoc_entry
+        <where>
+            <if test="categoryId != null and categoryId>0">
+                and categoryId = #{categoryId}
+            </if>
+        </where>
+    </select>
+    <insert id="addEntry" parameterType="com.carpe.entity.EdocCategory">
+        insert into edoc_entry(categoryId, title, summary, uploadUser, createDate)
+        values (#{categoryId}, #{title}, #{summary}, #{uploadUser}, now())
+    </insert>
+
+    <select id="queryByEntry" resultType="com.carpe.entity.EdocEntry">
+        select *
+        from edoc_entry
+        <where>
+            <if test="id !=null and id >0">
+                and id=#{id}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateEntry">
+        update edoc_entry
+        <set>
+            <if test="categoryId != null and categoryId != '' ">
+                categoryId=#{categoryId},
+            </if>
+            <if test="title != null and title != '' ">
+                title=#{title},
+            </if>
+            <if test="summary != null and summary != '' ">
+                summary=#{summary},
+            </if>
+            <if test="uploadUser != null and uploadUser != '' ">
+                uploadUser=#{uploadUser},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteEntry">
+        delete from edoc_entry where id=#{id}
+    </delete>
+</mapper>
